@@ -11,6 +11,11 @@ import {
 } from 'lucide-react';
 import { Recipe, RecipeCategory, Ingredient, InstructionStep } from '../types/recipe';
 
+import lasagnaImg from '../assets/images/recipe_lasagna_heirloom_1793898158537.jpg';
+import applePieImg from '../assets/images/recipe_apple_pie_grandma_1793898159138.jpg';
+import biryaniImg from '../assets/images/recipe_chicken_biryani_1793898160064.jpg';
+import focacciaImg from '../assets/images/recipe_sourdough_focaccia_1793898160466.jpg';
+
 interface EditRecipeModalProps {
   recipe: Recipe;
   onClose: () => void;
@@ -18,10 +23,10 @@ interface EditRecipeModalProps {
 }
 
 const PRESET_PHOTOS = [
-  { name: 'Lasagna', url: '/src/assets/images/recipe_lasagna_heirloom_1793898158537.jpg' },
-  { name: 'Apple Pie', url: '/src/assets/images/recipe_apple_pie_grandma_1793898159138.jpg' },
-  { name: 'Biryani', url: '/src/assets/images/recipe_chicken_biryani_1793898160064.jpg' },
-  { name: 'Focaccia', url: '/src/assets/images/recipe_sourdough_focaccia_1793898160466.jpg' },
+  { name: 'Lasagna', url: lasagnaImg || '/images/lasagna.jpg' },
+  { name: 'Apple Pie', url: applePieImg || '/images/apple_pie.jpg' },
+  { name: 'Biryani', url: biryaniImg || '/images/biryani.jpg' },
+  { name: 'Focaccia', url: focacciaImg || '/images/focaccia.jpg' },
 ];
 
 export const EditRecipeModal: React.FC<EditRecipeModalProps> = ({

@@ -1,14 +1,18 @@
 import { Recipe, FamilyMember, UserAccount } from '../types/recipe';
+import lasagnaImg from '../assets/images/recipe_lasagna_heirloom_1793898158537.jpg';
+import applePieImg from '../assets/images/recipe_apple_pie_grandma_1793898159138.jpg';
+import biryaniImg from '../assets/images/recipe_chicken_biryani_1793898160064.jpg';
+import focacciaImg from '../assets/images/recipe_sourdough_focaccia_1793898160466.jpg';
 
 export const INITIAL_USER: UserAccount = {
   id: 'usr_default',
-  name: 'Rosa Montgomery',
-  email: 'khadija.parkar@gmail.com',
-  familyBookTitle: "The Montgomery & Rossi Family Heirloom Archive",
-  heirloomSpecialty: 'Traditional Italian & Slow-Simmered Comforts',
+  name: 'Anna Miller',
+  email: 'anna@recipebook.com',
+  familyBookTitle: "Anna's Recipe Collection",
+  heirloomSpecialty: 'Homemade Pastas & Fresh Baking',
   avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-  joinedDate: 'Joined May 2021',
-  membersCount: 8,
+  joinedDate: 'Joined May 2024',
+  membersCount: 4,
   useMetricUnits: false,
   keepScreenAwake: true,
 };
@@ -61,7 +65,7 @@ export const INITIAL_RECIPES: Recipe[] = [
     id: 'rec_lasagna_01',
     title: "Nonna Rosa's Sunday Bolognese Lasagna",
     description: "Slow-simmered beef & pork ragù layered with creamy besciamella, silky pasta sheets, and freshly grated Parmigiano-Reggiano.",
-    imageUrl: '/src/assets/images/recipe_lasagna_heirloom_1793898158537.jpg',
+    imageUrl: lasagnaImg || '/images/lasagna.jpg',
     category: 'Heirloom Classics',
     prepTimeMinutes: 45,
     cookTimeMinutes: 90,
@@ -141,7 +145,7 @@ export const INITIAL_RECIPES: Recipe[] = [
     id: 'rec_apple_pie_02',
     title: "Grandma Clara's Brown Butter Apple Pie",
     description: "Flaky hand-crimped lattice butter crust filled with spiced Honeycrisp apples, rich browned butter, and a hint of apple cider caramel.",
-    imageUrl: '/src/assets/images/recipe_apple_pie_grandma_1793898159138.jpg',
+    imageUrl: applePieImg || '/images/apple_pie.jpg',
     category: 'Desserts & Sweets',
     prepTimeMinutes: 40,
     cookTimeMinutes: 55,
@@ -211,7 +215,7 @@ export const INITIAL_RECIPES: Recipe[] = [
     id: 'rec_biryani_03',
     title: "Auntie Fatima's Royal Chicken Dum Biryani",
     description: "Marinated bone-in chicken thighs infused with ginger, garlic, yogurt, and whole spices, sealed under fragrant saffron-steeped aged basmati rice.",
-    imageUrl: '/src/assets/images/recipe_chicken_biryani_1793898160064.jpg',
+    imageUrl: biryaniImg || '/images/biryani.jpg',
     category: 'Holiday Feasts',
     prepTimeMinutes: 50,
     cookTimeMinutes: 45,
@@ -282,7 +286,7 @@ export const INITIAL_RECIPES: Recipe[] = [
     id: 'rec_focaccia_04',
     title: "Papa Marco's Rosemary & Sea Salt Focaccia",
     description: "High-hydration slow-fermented Italian flatbread with a crisp olive oil golden crust, pillowy crumb, blistered cherry tomatoes, and flaky sea salt.",
-    imageUrl: '/src/assets/images/recipe_sourdough_focaccia_1793898160466.jpg',
+    imageUrl: focacciaImg || '/images/focaccia.jpg',
     category: 'Breads & Baking',
     prepTimeMinutes: 25,
     cookTimeMinutes: 28,

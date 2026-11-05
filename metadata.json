@@ -2,5 +2,7 @@
   "name": "Recipad - Family Recipe Keeper & Cookbook",
   "description": "Store, organize, and share cherished family recipes with photo uploads, step-by-step cook mode, and family circle sharing.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

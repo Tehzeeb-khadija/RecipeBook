@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { BookHeart, Mail, Lock, User, Sparkles, Heart, Eye, EyeOff, CheckCircle2, ArrowRight, Utensils } from 'lucide-react';
 import { UserAccount } from '../types/recipe';
+import lasagnaImg from '../assets/images/recipe_lasagna_heirloom_1793898158537.jpg';
+import applePieImg from '../assets/images/recipe_apple_pie_grandma_1793898159138.jpg';
+import biryaniImg from '../assets/images/recipe_chicken_biryani_1793898160064.jpg';
+import focacciaImg from '../assets/images/recipe_sourdough_focaccia_1793898160466.jpg';
 
 interface AuthScreenProps {
   currentUser: UserAccount | null;
@@ -10,36 +14,35 @@ interface AuthScreenProps {
   isStartScreen?: boolean;
 }
 
+// Food photos for start page with reliable imported bundled URLs and public fallbacks
 const FOOD_SHOWCASE_PHOTOS = [
   {
     title: 'Baked Lasagna',
     tag: 'Dinner',
-    url: '/src/assets/images/recipe_lasagna_heirloom_1793898158537.jpg',
+    url: lasagnaImg || '/images/lasagna.jpg',
+    fallback: '/images/lasagna.jpg',
   },
   {
     title: 'Lattice Apple Pie',
     tag: 'Baking',
-    url: '/src/assets/images/recipe_apple_pie_grandma_1793898159138.jpg',
+    url: applePieImg || '/images/apple_pie.jpg',
+    fallback: '/images/apple_pie.jpg',
   },
   {
     title: 'Chicken Biryani',
     tag: 'Spiced',
-    url: '/src/assets/images/recipe_chicken_biryani_1793898160064.jpg',
+    url: biryaniImg || '/images/biryani.jpg',
+    fallback: '/images/biryani.jpg',
   },
   {
     title: 'Olive Oil Focaccia',
     tag: 'Bread',
-    url: '/src/assets/images/recipe_sourdough_focaccia_1793898160466.jpg',
+    url: focacciaImg || '/images/focaccia.jpg',
+    fallback: '/images/focaccia.jpg',
   },
 ];
 
-const AVATAR_OPTIONS = [
-  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-];
+const DEFAULT_AVATAR = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80';
 
 export const AuthScreen: React.FC<AuthScreenProps> = ({
   currentUser: _currentUser,
@@ -56,7 +59,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cookbookTitle, setCookbookTitle] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState(AVATAR_OPTIONS[0]);
   const [errorMsg, setErrorMsg] = useState('');
   const [successNotice, setSuccessNotice] = useState('');
 
@@ -77,11 +79,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     } else {
       user = {
         id: 'usr_' + Date.now(),
-        name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+        name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) || 'Anna',
         email: email,
         familyBookTitle: "My Recipe Vault",
         heirloomSpecialty: "Comfort Dinners & Baking",
-        avatarUrl: selectedAvatar,
+        avatarUrl: DEFAULT_AVATAR,
         joinedDate: 'Joined ' + new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
         membersCount: 4,
         useMetricUnits: false,
@@ -102,7 +104,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     setErrorMsg('');
 
     if (!name.trim()) {
-      setErrorMsg('Please provide your name.');
+      setErrorMsg('Please enter your name.');
       return;
     }
     if (!email.trim() || !email.includes('@')) {
@@ -120,7 +122,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       email: email.trim(),
       familyBookTitle: cookbookTitle.trim() || `${name.trim()}'s Recipe Collection`,
       heirloomSpecialty: 'Delicious Homemade Cooking',
-      avatarUrl: selectedAvatar,
+      avatarUrl: DEFAULT_AVATAR,
       joinedDate: 'Joined ' + new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
       membersCount: 1,
       useMetricUnits: false,
@@ -137,7 +139,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
   return (
     <div className="p-4 sm:p-5 max-w-md mx-auto w-full flex flex-col justify-center">
-      {/* FOOD PHOTOS SHOWCASE CAROUSEL ON START PAGE */}
+      {/* FOOD PHOTOS SHOWCASE ON START PAGE */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5 text-xs font-bold text-purple-950">
@@ -147,18 +149,23 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <span className="text-[10px] text-pink-600 font-semibold">4 Heirlooms</span>
         </div>
 
-        {/* 4 Photo Cards Grid */}
+        {/* 4 Photo Cards Grid with Fallback resilience */}
         <div className="grid grid-cols-2 gap-2">
           {FOOD_SHOWCASE_PHOTOS.map((food, idx) => (
             <div
               key={idx}
-              className="relative h-24 rounded-2xl overflow-hidden border border-pink-200/90 shadow-2xs group"
+              className="relative h-24 rounded-2xl overflow-hidden border border-pink-200/90 shadow-2xs group bg-pink-100"
             >
               <img
                 src={food.url}
                 alt={food.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  if (e.currentTarget.src !== food.fallback) {
+                    e.currentTarget.src = food.fallback;
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-black/10 pointer-events-none" />
               <div className="absolute bottom-1.5 left-2 right-2">
@@ -251,7 +258,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="chef@example.com"
+                placeholder="anna@example.com"
                 className="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-pink-300 text-purple-950 placeholder:text-purple-300"
                 required
               />
@@ -265,7 +272,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               </label>
               <button
                 type="button"
-                onClick={() => setSuccessNotice('Demo mode: You can enter any password or use the Quick Demo Logins below!')}
+                onClick={() => setSuccessNotice('Please enter your email to receive a password reset link.')}
                 className="text-[11px] text-pink-600 hover:text-pink-700 font-medium hover:underline"
               >
                 Forgot password?
@@ -324,7 +331,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Khadija Parkar"
+                placeholder="e.g. Anna"
                 className="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-pink-300 text-purple-950 placeholder:text-purple-300"
                 required
               />
@@ -341,7 +348,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="khadija@example.com"
+                placeholder="anna@example.com"
                 className="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-pink-300 text-purple-950 placeholder:text-purple-300"
                 required
               />
@@ -358,7 +365,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create password"
+                placeholder="Create password (6+ chars)"
                 className="w-full pl-9 pr-10 py-2 bg-white border border-pink-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-pink-300 text-purple-950 placeholder:text-purple-300"
                 required
               />
@@ -380,32 +387,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               type="text"
               value={cookbookTitle}
               onChange={(e) => setCookbookTitle(e.target.value)}
-              placeholder="e.g. My Favorite Kitchen Recipes"
+              placeholder="e.g. Anna's Favorite Recipes"
               className="w-full px-3 py-2 bg-white border border-pink-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-pink-300 text-purple-950 placeholder:text-purple-300"
             />
-          </div>
-
-          {/* Choose Avatar */}
-          <div>
-            <label className="block text-xs font-bold text-purple-900 mb-1">
-              Select Avatar
-            </label>
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-              {AVATAR_OPTIONS.map((img, idx) => (
-                <button
-                  type="button"
-                  key={idx}
-                  onClick={() => setSelectedAvatar(img)}
-                  className={`w-9 h-9 rounded-full overflow-hidden border-2 transition-all shrink-0 ${
-                    selectedAvatar === img
-                      ? 'border-pink-500 ring-2 ring-pink-300 scale-105'
-                      : 'border-transparent opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img src={img} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </button>
-              ))}
-            </div>
           </div>
 
           <button
@@ -425,11 +409,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           onClick={() => {
             const guestUser: UserAccount = {
               id: 'usr_guest',
-              name: 'Guest User',
-              email: 'guest@recipebook.com',
-              familyBookTitle: 'My Recipe Vault',
+              name: 'Anna',
+              email: 'anna@recipebook.com',
+              familyBookTitle: "Anna's Recipe Vault",
               heirloomSpecialty: 'Everyday Cooking',
-              avatarUrl: AVATAR_OPTIONS[0],
+              avatarUrl: DEFAULT_AVATAR,
               joinedDate: 'Guest Mode',
               membersCount: 1,
               useMetricUnits: false,
